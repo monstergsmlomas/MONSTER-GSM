@@ -103,20 +103,19 @@ body {
    ================== */
 
 .neon-text-green {
-  color: var(--neon-green);
+  color: #ffffff;
   text-shadow:
-    0 0 7px var(--neon-green),
-    0 0 14px var(--neon-green),
-    0 0 28px rgba(61, 255, 20, 0.6),
-    0 0 56px rgba(61, 255, 20, 0.3);
+    0 0 4px var(--neon-green),
+    0 0 10px rgba(61, 255, 20, 0.5),
+    0 0 22px rgba(61, 255, 20, 0.2);
 }
 
 .neon-text-blue {
-  color: var(--neon-blue);
+  color: #ffffff;
   text-shadow:
-    0 0 7px var(--neon-blue),
-    0 0 14px var(--neon-blue),
-    0 0 28px rgba(26, 92, 255, 0.6);
+    0 0 4px var(--neon-blue),
+    0 0 10px rgba(26, 92, 255, 0.5),
+    0 0 22px rgba(26, 92, 255, 0.2);
 }
 
 .neon-border-green {
