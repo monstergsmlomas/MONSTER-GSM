@@ -124,9 +124,9 @@ export default function Navbar() {
             </div>
             <span
               className="font-orbitron font-bold text-lg tracking-widest"
-              style={{ color: '#3DFF14' }}
+              style={{ color: '#3DFF14', fontFamily: 'Betterlett, sans-serif', fontSize: '1.4rem' }}
             >
-              MONSTER<span style={{ color: '#1A5CFF' }}>GSM</span>
+              Monster<span style={{ color: '#1A5CFF' }}> gsm</span>
             </span>
           </Link>
 

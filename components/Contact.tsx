@@ -51,14 +51,16 @@ export default function Contact() {
   const taglineRef  = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    gsap.from(headerRef.current, {
-      y: 50, autoAlpha: 0, duration: 0.85, ease: 'power3.out',
-      scrollTrigger: { trigger: headerRef.current, start: 'top 88%' },
-    });
-    gsap.from(ctaBlockRef.current, {
-      y: 45, autoAlpha: 0, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: ctaBlockRef.current, start: 'top 85%' },
-    });
+    gsap.fromTo(headerRef.current,
+      { y: 50, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.85, ease: 'power3.out',
+        scrollTrigger: { trigger: headerRef.current, start: 'top 88%', once: true } }
+    );
+    gsap.fromTo(ctaBlockRef.current,
+      { y: 45, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: ctaBlockRef.current, start: 'top 88%', once: true } }
+    );
 
     const pulseRing = (el: HTMLDivElement | null, delay: number) => {
       if (!el) return;
@@ -66,28 +68,32 @@ export default function Contact() {
         { scale: 1, autoAlpha: 0.55 },
         { scale: 2.4, autoAlpha: 0, duration: 1.8, ease: 'power2.out',
           repeat: -1, delay, repeatDelay: 0.3,
-          scrollTrigger: { trigger: ctaBlockRef.current, start: 'top 85%', once: true } }
+          scrollTrigger: { trigger: ctaBlockRef.current, start: 'top 88%', once: true } }
       );
     };
     pulseRing(ring1Ref.current, 0);
     pulseRing(ring2Ref.current, 0.6);
     pulseRing(ring3Ref.current, 1.2);
 
-    gsap.from(waBtnRef.current, {
-      scale: 0.88, autoAlpha: 0, duration: 0.6, ease: 'back.out(2)',
-      scrollTrigger: { trigger: waBtnRef.current, start: 'top 88%' },
-    });
+    gsap.fromTo(waBtnRef.current,
+      { scale: 0.88, autoAlpha: 0 },
+      { scale: 1, autoAlpha: 1, duration: 0.6, ease: 'back.out(2)',
+        scrollTrigger: { trigger: waBtnRef.current, start: 'top 88%', once: true } }
+    );
 
     const cards = cardsRef.current.filter(Boolean);
-    gsap.from(cards, {
-      y: 40, autoAlpha: 0, stagger: 0.1, duration: 0.7, ease: 'power3.out',
-      scrollTrigger: { trigger: cards[0], start: 'top 88%' },
-    });
+    gsap.fromTo(cards,
+      { y: 40, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, stagger: 0.1, duration: 0.7, ease: 'power3.out',
+        scrollTrigger: { trigger: cards[0], start: 'top 88%', once: true },
+      }
+    );
 
-    gsap.from(taglineRef.current, {
-      y: 20, autoAlpha: 0, duration: 0.6, ease: 'power2.out',
-      scrollTrigger: { trigger: taglineRef.current, start: 'top 92%' },
-    });
+    gsap.fromTo(taglineRef.current,
+      { y: 20, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: taglineRef.current, start: 'top 92%', once: true } }
+    );
   }, { scope: sectionRef });
 
   const onCardEnter = (e: React.MouseEvent<HTMLDivElement>) =>

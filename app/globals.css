@@ -1,4 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Betterlett';
+  src: url('/fonts/Betterlett.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -131,7 +139,6 @@ body {
   background: transparent;
   border: 2px solid var(--neon-green);
   color: var(--neon-green);
-  text-shadow: 0 0 8px var(--neon-green);
   box-shadow: 0 0 12px var(--neon-green), 0 0 30px rgba(61, 255, 20, 0.2), inset 0 0 15px rgba(61, 255, 20, 0.05);
   transition: box-shadow 0.3s ease, background 0.3s ease;
   font-family: 'Orbitron', monospace;
@@ -160,7 +167,6 @@ body {
   background: transparent;
   border: 2px solid var(--neon-blue);
   color: var(--neon-blue);
-  text-shadow: 0 0 8px var(--neon-blue);
   box-shadow: 0 0 12px var(--neon-blue), 0 0 30px rgba(26, 92, 255, 0.2), inset 0 0 15px rgba(26, 92, 255, 0.05);
   transition: box-shadow 0.3s ease, background 0.3s ease;
   font-family: 'Orbitron', monospace;
@@ -198,8 +204,9 @@ body {
 .card-corners::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
 
 /* Fonts */
-.font-orbitron  { font-family: 'Orbitron', monospace; }
-.font-cursive-brand { font-family: 'Dancing Script', cursive; }
+.font-orbitron      { font-family: 'Orbitron', monospace; }
+.font-rajdhani      { font-family: 'Rajdhani', sans-serif; }
+.font-betterlett    { font-family: 'Betterlett', sans-serif; }
 
 /* Section header line */
 .section-line {

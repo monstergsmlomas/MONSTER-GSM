@@ -42,12 +42,12 @@ const services = [
 ];
 
 const extraServices = [
-  { icon: Battery,  label: 'Cambio de Batería',      desc: 'Batería original o premium con garantía' },
-  { icon: Mic,      label: 'Micrófono / Parlante',   desc: 'Audio sin señal o voz distorsionada' },
-  { icon: Wifi,     label: 'Antena & Señal',          desc: 'Sin wifi, Bluetooth o señal celular' },
-  { icon: Droplets, label: 'Daño por Agua',           desc: 'Limpieza y recuperación de plaqueta' },
-  { icon: Wrench,   label: 'Conector de Carga',       desc: 'No carga o carga intermitente' },
-  { icon: Zap,      label: 'Cortocircuito',           desc: 'Diagnóstico y reparación eléctrica' },
+  { icon: Battery,  label: 'Cambio de Batería',     desc: 'Batería original o premium con garantía' },
+  { icon: Mic,      label: 'Micrófono / Parlante',  desc: 'Audio sin señal o voz distorsionada' },
+  { icon: Wifi,     label: 'Antena & Señal',         desc: 'Sin wifi, Bluetooth o señal celular' },
+  { icon: Droplets, label: 'Daño por Agua',          desc: 'Limpieza y recuperación de plaqueta' },
+  { icon: Wrench,   label: 'Conector de Carga',      desc: 'No carga o carga intermitente' },
+  { icon: Zap,      label: 'Cortocircuito',          desc: 'Diagnóstico y reparación eléctrica' },
 ];
 
 const statsData = [
@@ -58,51 +58,64 @@ const statsData = [
 ];
 
 export default function Services() {
-  const sectionRef    = useRef<HTMLElement>(null);
-  const headerRef     = useRef<HTMLDivElement>(null);
-  const card0Ref      = useRef<HTMLDivElement>(null);
-  const card1Ref      = useRef<HTMLDivElement>(null);
-  const extraRef      = useRef<HTMLDivElement>(null);
-  const statsRef      = useRef<HTMLDivElement>(null);
-  const statNumRefs   = useRef<HTMLDivElement[]>([]);
-  const featureRefs   = useRef<HTMLLIElement[][]>([[], []]);
+  const sectionRef  = useRef<HTMLElement>(null);
+  const headerRef   = useRef<HTMLDivElement>(null);
+  const card0Ref    = useRef<HTMLDivElement>(null);
+  const card1Ref    = useRef<HTMLDivElement>(null);
+  const extraRef    = useRef<HTMLDivElement>(null);
+  const statsRef    = useRef<HTMLDivElement>(null);
+  const statNumRefs = useRef<HTMLDivElement[]>([]);
 
   useGSAP(() => {
-    gsap.from(headerRef.current, {
-      y: 50, autoAlpha: 0, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: headerRef.current, start: 'top 88%' },
-    });
+    // fromTo garantiza que el estado final siempre sea visible
+    const reveal = (el: Element | null, vars: gsap.TweenVars, triggerEl?: Element | null) => {
+      if (!el) return;
+      gsap.fromTo(el,
+        { autoAlpha: 0, ...vars },
+        {
+          autoAlpha: 1,
+          x: 0, y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: triggerEl ?? el,
+            start: 'top 88%',
+            once: true,
+          },
+        }
+      );
+    };
 
-    gsap.from(card0Ref.current, {
-      x: -80, autoAlpha: 0, duration: 0.85, ease: 'power3.out',
-      scrollTrigger: { trigger: card0Ref.current, start: 'top 82%' },
-    });
-    gsap.from(card1Ref.current, {
-      x: 80, autoAlpha: 0, duration: 0.85, ease: 'power3.out',
-      scrollTrigger: { trigger: card1Ref.current, start: 'top 82%' },
-    });
+    reveal(headerRef.current, { y: 50 });
+    reveal(card0Ref.current,  { x: -80 });
+    reveal(card1Ref.current,  { x: 80  });
 
-    [0, 1].forEach((ci) => {
-      const items = featureRefs.current[ci].filter(Boolean);
-      if (!items.length) return;
-      gsap.from(items, {
-        x: -16, autoAlpha: 0, stagger: 0.07, duration: 0.4, ease: 'power2.out',
-        scrollTrigger: { trigger: items[0], start: 'top 87%' },
+    // Extra grid items
+    if (extraRef.current) {
+      Array.from(extraRef.current.children).forEach((child, i) => {
+        gsap.fromTo(child,
+          { autoAlpha: 0, y: 28 },
+          {
+            autoAlpha: 1, y: 0,
+            duration: 0.5, ease: 'power2.out',
+            delay: i * 0.07,
+            scrollTrigger: { trigger: extraRef.current, start: 'top 88%', once: true },
+          }
+        );
       });
-    });
+    }
 
-    // Extra services grid
-    const extraItems = extraRef.current ? Array.from(extraRef.current.children) : [];
-    gsap.from(extraItems, {
-      y: 30, autoAlpha: 0, stagger: 0.08, duration: 0.5, ease: 'power2.out',
-      scrollTrigger: { trigger: extraRef.current, start: 'top 85%' },
-    });
+    // Stats bar
+    gsap.fromTo(statsRef.current,
+      { autoAlpha: 0, y: 40 },
+      {
+        autoAlpha: 1, y: 0,
+        duration: 0.7, ease: 'power3.out',
+        scrollTrigger: { trigger: statsRef.current, start: 'top 88%', once: true },
+      }
+    );
 
-    // Stats + counters
-    gsap.from(statsRef.current, {
-      y: 40, autoAlpha: 0, duration: 0.7, ease: 'power3.out',
-      scrollTrigger: { trigger: statsRef.current, start: 'top 86%' },
-    });
+    // Number counters
     statsData.forEach((stat, i) => {
       const el = statNumRefs.current[i];
       if (!el) return;
@@ -110,35 +123,26 @@ export default function Services() {
       gsap.to(obj, {
         val: stat.numeric, duration: 1.8, ease: 'power2.out',
         onUpdate() { el.textContent = Math.round(obj.val) + stat.suffix; },
-        scrollTrigger: { trigger: statsRef.current, start: 'top 82%', once: true },
+        scrollTrigger: { trigger: statsRef.current, start: 'top 85%', once: true },
       });
     });
+
   }, { scope: sectionRef });
 
-  // 3D tilt
+  // 3D tilt on cards
   const onTiltMove  = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = e.currentTarget, r = el.getBoundingClientRect();
     gsap.to(el, {
-      rotationY: ((e.clientX - r.left) / r.width  - 0.5) * 14,
-      rotationX: ((e.clientY - r.top)  / r.height - 0.5) * -14,
+      rotationY: ((e.clientX - r.left) / r.width  - 0.5) * 12,
+      rotationX: ((e.clientY - r.top)  / r.height - 0.5) * -12,
       transformPerspective: 900,
       duration: 0.3, ease: 'power1.out',
     });
   };
-  const onTiltLeave = (e: React.MouseEvent<HTMLDivElement>, primary: string) => {
-    gsap.to(e.currentTarget, {
-      rotationY: 0, rotationX: 0, y: 0,
-      boxShadow: `0 0 14px ${primary}22, inset 0 0 22px ${primary}12`,
-      duration: 0.65, ease: 'elastic.out(1, 0.4)',
-    });
-  };
-  const onTiltEnter = (e: React.MouseEvent<HTMLDivElement>, primary: string) => {
-    gsap.to(e.currentTarget, {
-      y: -6,
-      boxShadow: `0 0 32px ${primary}55, 0 0 65px ${primary}20, inset 0 0 32px ${primary}14`,
-      duration: 0.3, ease: 'power2.out',
-    });
-  };
+  const onTiltEnter = (e: React.MouseEvent<HTMLDivElement>, primary: string) =>
+    gsap.to(e.currentTarget, { y: -6, boxShadow: `0 0 30px ${primary}50, inset 0 0 30px ${primary}12`, duration: 0.3, ease: 'power2.out' });
+  const onTiltLeave = (e: React.MouseEvent<HTMLDivElement>, primary: string) =>
+    gsap.to(e.currentTarget, { y: 0, rotationY: 0, rotationX: 0, boxShadow: `0 0 14px ${primary}20, inset 0 0 20px ${primary}10`, duration: 0.6, ease: 'elastic.out(1, 0.4)' });
 
   return (
     <section ref={sectionRef} id="servicios" className="relative py-24 px-4 overflow-hidden">
@@ -155,8 +159,7 @@ export default function Services() {
             — Especialistas en reparación —
           </span>
           <h2 className="font-orbitron font-bold text-3xl sm:text-5xl mb-3 text-white">
-            REPARAMOS TU{' '}
-            <span style={{ color: '#3DFF14' }}>CELULAR</span>
+            REPARAMOS TU <span style={{ color: '#3DFF14' }}>CELULAR</span>
           </h2>
           <p className="font-rajdhani text-base text-gray-400 max-w-xl mx-auto">
             iPhone, Samsung, Motorola, Xiaomi y más. Diagnóstico sin costo y presupuesto antes de cualquier reparación.
@@ -170,8 +173,7 @@ export default function Services() {
             const Icon       = service.icon;
             const isGreen    = service.color === 'green';
             const primary    = isGreen ? '#3DFF14' : '#1A5CFF';
-            const primaryDim = isGreen ? 'rgba(61,255,20,0.1)' : 'rgba(26,92,255,0.1)';
-            const glowSm     = 'none';
+            const primaryDim = isGreen ? 'rgba(61,255,20,0.08)' : 'rgba(26,92,255,0.08)';
             const cardRef    = ci === 0 ? card0Ref : card1Ref;
 
             return (
@@ -181,8 +183,8 @@ export default function Services() {
                   className="relative rounded-lg p-8 cursor-default"
                   style={{
                     background: 'linear-gradient(135deg, #0d0d0d 0%, #111 100%)',
-                    border: `1px solid ${primary}40`,
-                    boxShadow: `0 0 14px ${primary}20, inset 0 0 22px ${primaryDim}`,
+                    border: `1px solid ${primary}35`,
+                    boxShadow: `0 0 14px ${primary}20, inset 0 0 20px ${primaryDim}`,
                     transformStyle: 'preserve-3d',
                     willChange: 'transform',
                   }}
@@ -190,38 +192,29 @@ export default function Services() {
                   onMouseEnter={(e) => onTiltEnter(e, primary)}
                   onMouseLeave={(e) => onTiltLeave(e, primary)}
                 >
-                  {/* Badge */}
                   <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-orbitron font-bold tracking-wider"
-                    style={{ background: primaryDim, color: primary, border: `1px solid ${primary}50` }}>
+                    style={{ background: primaryDim, color: primary, border: `1px solid ${primary}40` }}>
                     {service.badge}
                   </div>
-
-                  {/* Corners */}
                   <div className="absolute top-0 left-0 w-5 h-5"
-                    style={{ borderTop: `2px solid ${primary}`, borderLeft: `2px solid ${primary}`, boxShadow: `-2px -2px 6px ${primary}50` }} />
+                    style={{ borderTop: `2px solid ${primary}`, borderLeft: `2px solid ${primary}` }} />
                   <div className="absolute bottom-0 right-0 w-5 h-5"
-                    style={{ borderBottom: `2px solid ${primary}`, borderRight: `2px solid ${primary}`, boxShadow: `2px 2px 6px ${primary}50` }} />
+                    style={{ borderBottom: `2px solid ${primary}`, borderRight: `2px solid ${primary}` }} />
 
-                  {/* Icon */}
                   <div className="mb-5 w-14 h-14 rounded-lg flex items-center justify-center"
-                    style={{ background: primaryDim, border: `1px solid ${primary}40`, boxShadow: `0 0 18px ${primary}25` }}>
-                    <Icon size={28} style={{ color: primary, filter: `drop-shadow(0 0 5px ${primary})` }} />
+                    style={{ background: primaryDim, border: `1px solid ${primary}35` }}>
+                    <Icon size={28} style={{ color: primary }} />
                   </div>
 
                   <p className="font-rajdhani text-xs font-bold tracking-[0.22em] uppercase mb-1"
-                    style={{ color: primary, textShadow: glowSm }}>
-                    {service.subtitle}
-                  </p>
+                    style={{ color: primary }}>{service.subtitle}</p>
                   <h3 className="font-orbitron font-bold text-xl text-white mb-3">{service.title}</h3>
                   <p className="font-rajdhani text-gray-400 text-sm leading-relaxed mb-5">{service.description}</p>
 
                   <ul className="space-y-2">
                     {service.features.map((f, j) => (
-                      <li key={j}
-                        ref={(el) => { if (el) featureRefs.current[ci][j] = el; }}
-                        className="flex items-center gap-3 font-rajdhani text-sm text-gray-300">
-                        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                          style={{ background: primary, boxShadow: `0 0 5px ${primary}` }} />
+                      <li key={j} className="flex items-center gap-3 font-rajdhani text-sm text-gray-300">
+                        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: primary }} />
                         {f}
                       </li>
                     ))}
@@ -241,7 +234,7 @@ export default function Services() {
           })}
         </div>
 
-        {/* Extra services grid */}
+        {/* Extra services */}
         <div className="mb-14">
           <p className="font-rajdhani text-sm font-semibold tracking-[0.25em] uppercase text-center mb-6"
             style={{ color: 'rgba(255,255,255,0.3)' }}>
@@ -249,11 +242,12 @@ export default function Services() {
           </p>
           <div ref={extraRef} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
             {extraServices.map(({ icon: Icon, label, desc }, i) => (
-              <div key={i} className="flex flex-col items-center text-center p-4 rounded-lg group cursor-default transition-all duration-300"
-                style={{ background: '#0d0d0d', border: '1px solid rgba(61,255,20,0.1)' }}
+              <div key={i}
+                className="flex flex-col items-center text-center p-4 rounded-lg"
+                style={{ background: '#0d0d0d', border: '1px solid rgba(61,255,20,0.12)' }}
                 onMouseEnter={(e) => gsap.to(e.currentTarget, { y: -4, borderColor: 'rgba(61,255,20,0.35)', duration: 0.25, ease: 'power2.out' })}
-                onMouseLeave={(e) => gsap.to(e.currentTarget, { y: 0, borderColor: 'rgba(61,255,20,0.1)', duration: 0.4, ease: 'power2.out' })}>
-                <Icon size={20} className="mb-2" style={{ color: '#3DFF14', filter: 'drop-shadow(0 0 4px rgba(61,255,20,0.5))' }} />
+                onMouseLeave={(e) => gsap.to(e.currentTarget, { y: 0, borderColor: 'rgba(61,255,20,0.12)', duration: 0.35, ease: 'power2.out' })}>
+                <Icon size={20} className="mb-2" style={{ color: '#3DFF14' }} />
                 <p className="font-rajdhani font-semibold text-xs text-white leading-tight mb-1">{label}</p>
                 <p className="font-rajdhani text-xs text-gray-500 leading-tight">{desc}</p>
               </div>
@@ -261,13 +255,12 @@ export default function Services() {
           </div>
         </div>
 
-        {/* Stats bar */}
+        {/* Stats */}
         <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4 p-8 rounded-lg"
-          style={{ background: 'linear-gradient(135deg, #0d0d0d, #0f0f0f)', border: '1px solid rgba(61,255,20,0.16)', boxShadow: '0 0 28px rgba(61,255,20,0.05)' }}>
+          style={{ background: 'linear-gradient(135deg, #0d0d0d, #0f0f0f)', border: '1px solid rgba(61,255,20,0.15)' }}>
           {statsData.map((stat, i) => (
             <div key={i} className="text-center">
-              <div
-                ref={(el) => { if (el) statNumRefs.current[i] = el; }}
+              <div ref={(el) => { if (el) statNumRefs.current[i] = el; }}
                 className="font-orbitron font-black text-3xl sm:text-4xl mb-1"
                 style={{ color: '#3DFF14' }}>
                 {stat.numeric}{stat.suffix}
@@ -276,7 +269,6 @@ export default function Services() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );
