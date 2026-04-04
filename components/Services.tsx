@@ -151,12 +151,12 @@ export default function Services() {
         {/* Header */}
         <div ref={headerRef} className="text-center mb-16">
           <span className="inline-block font-rajdhani text-sm font-semibold tracking-[0.3em] uppercase mb-4"
-            style={{ color: '#1A5CFF', textShadow: '0 0 6px rgba(26,92,255,0.6)' }}>
+            style={{ color: '#6a9fff' }}>
             — Especialistas en reparación —
           </span>
           <h2 className="font-orbitron font-bold text-3xl sm:text-5xl mb-3 text-white">
             REPARAMOS TU{' '}
-            <span style={{ color: '#3DFF14', textShadow: '0 0 6px rgba(61,255,20,0.5)' }}>CELULAR</span>
+            <span style={{ color: '#3DFF14' }}>CELULAR</span>
           </h2>
           <p className="font-rajdhani text-base text-gray-400 max-w-xl mx-auto">
             iPhone, Samsung, Motorola, Xiaomi y más. Diagnóstico sin costo y presupuesto antes de cualquier reparación.
@@ -171,7 +171,7 @@ export default function Services() {
             const isGreen    = service.color === 'green';
             const primary    = isGreen ? '#3DFF14' : '#1A5CFF';
             const primaryDim = isGreen ? 'rgba(61,255,20,0.1)' : 'rgba(26,92,255,0.1)';
-            const glowSm     = isGreen ? '0 0 5px rgba(61,255,20,0.7)' : '0 0 5px rgba(26,92,255,0.7)';
+            const glowSm     = 'none';
             const cardRef    = ci === 0 ? card0Ref : card1Ref;
 
             return (
@@ -269,7 +269,7 @@ export default function Services() {
               <div
                 ref={(el) => { if (el) statNumRefs.current[i] = el; }}
                 className="font-orbitron font-black text-3xl sm:text-4xl mb-1"
-                style={{ color: '#3DFF14', textShadow: '0 0 8px rgba(61,255,20,0.5)' }}>
+                style={{ color: '#3DFF14' }}>
                 {stat.numeric}{stat.suffix}
               </div>
               <div className="font-rajdhani text-xs tracking-widest uppercase text-gray-500">{stat.label}</div>

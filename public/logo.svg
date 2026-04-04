@@ -1,36 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+  <defs>
+    <filter id="gG" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4"  result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="b3"/>
+      <feMerge><feMergeNode in="b3"/><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gB" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4"  result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="b3"/>
+      <feMerge><feMergeNode in="b3"/><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&amp;display=swap');
+      .brand { font-family: 'Dancing Script', cursive; font-weight: 700; }
+    </style>
+  </defs>
+
   <!--
-    Monster GSM — Power Button Icon
-    Green arc  = #3DFF14  |  Blue stem = #1A5CFF
-    Layered strokes: colored outer → black hollow center = "thick outlined" neon look
-    Arc center: (100,108)  radius: 66  gap: ≈±27° from top  → endpoints (66,49) & (134,49)
+    VERIFIED GEOMETRY — based on Heroicons power button (24x24 → scaled to 400px)
+    Heroicons path: M5.636 5.636a9 9 0 1 0 12.728 0  +  M12 3v9
+    Center in Heroicons: (12, 12), radius 9
+    Gap endpoints: (5.636, 5.636) and (18.364, 5.636)
+    Arc: FROM left (5.636,5.636) TO right (18.364,5.636) sweep=0 large-arc=1
+         → goes CCW = DOWN left side → BOTTOM → UP right side  ✓
+
+    Scaled ×13.22 with center mapped to (200, 215):
+      left  = (200 + (5.636−12)×13.22, 215 + (5.636−12)×13.22) = (116, 131)
+      right = (200 + (18.364−12)×13.22, 215 + (5.636−12)×13.22) = (284, 131)
+    Stem top:    (200, 215 + (3−12)×13.22) = (200,  96)
+    Stem bottom: (200, 215 + (12−12)×13.22) = (200, 215)
   -->
 
-  <!-- ═══ GREEN ARC ═══ -->
-  <!-- outer soft glow -->
-  <path d="M 66,49 A 66,66 0 1,1 134,49"
-        stroke="#3DFF14" stroke-width="38" stroke-linecap="round" opacity="0.15"/>
-  <!-- mid glow -->
-  <path d="M 66,49 A 66,66 0 1,1 134,49"
-        stroke="#3DFF14" stroke-width="26" stroke-linecap="round" opacity="0.30"/>
-  <!-- solid colored border -->
-  <path d="M 66,49 A 66,66 0 1,1 134,49"
-        stroke="#3DFF14" stroke-width="20" stroke-linecap="round"/>
-  <!-- black hollow center -->
-  <path d="M 66,49 A 66,66 0 1,1 134,49"
-        stroke="#080808" stroke-width="10" stroke-linecap="round"/>
+  <!-- GREEN ARC — from upper-left, sweep=0 (CCW) around bottom to upper-right -->
+  <path d="M 116,131 A 119,119 0 1 0 284,131"
+        fill="none" stroke="#3DFF14" stroke-width="28" stroke-linecap="round"
+        filter="url(#gG)"/>
+  <path d="M 116,131 A 119,119 0 1 0 284,131"
+        fill="none" stroke="#050505" stroke-width="13" stroke-linecap="round"/>
 
-  <!-- ═══ BLUE STEM ═══ -->
-  <!-- outer soft glow -->
-  <line x1="100" y1="14" x2="100" y2="74"
-        stroke="#1A5CFF" stroke-width="38" stroke-linecap="round" opacity="0.15"/>
-  <!-- mid glow -->
-  <line x1="100" y1="14" x2="100" y2="74"
-        stroke="#1A5CFF" stroke-width="26" stroke-linecap="round" opacity="0.30"/>
-  <!-- solid colored border -->
-  <line x1="100" y1="14" x2="100" y2="74"
-        stroke="#1A5CFF" stroke-width="20" stroke-linecap="round"/>
-  <!-- black hollow center -->
-  <line x1="100" y1="14" x2="100" y2="74"
-        stroke="#080808" stroke-width="10" stroke-linecap="round"/>
+  <!-- BLUE STEM — from top (200,96) down into circle (200,215) -->
+  <line x1="200" y1="96"  x2="200" y2="218"
+        stroke="#1A5CFF" stroke-width="28" stroke-linecap="round"
+        filter="url(#gB)"/>
+  <line x1="200" y1="96"  x2="200" y2="218"
+        stroke="#050505" stroke-width="13" stroke-linecap="round"/>
+
+  <!-- TEXT -->
+  <text x="200" y="450" text-anchor="middle" class="brand" font-size="70"
+        fill="#3DFF14" filter="url(#gG)">Monster gsm</text>
+  <text x="200" y="450" text-anchor="middle" class="brand" font-size="70"
+        fill="#3DFF14">Monster gsm</text>
 </svg>

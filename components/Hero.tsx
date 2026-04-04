@@ -200,7 +200,7 @@ export default function Hero() {
               key={`m${i}`}
               ref={(el) => { if (el) mCharsRef.current[i] = el; }}
               className="anim-char"
-              style={{ color: '#3DFF14', textShadow: '0 0 6px rgba(61,255,20,0.6)' }}
+              style={{ color: '#3DFF14' }}
             >{c}</span>
           ))}
           {GSM.map((c, i) => (
@@ -210,7 +210,7 @@ export default function Hero() {
               className="anim-char"
               style={{
                 color: c === ' ' ? 'transparent' : '#1A5CFF',
-                textShadow: c === ' ' ? 'none' : '0 0 6px rgba(26,92,255,0.6)',
+                textShadow: 'none',
               }}
             >{c === ' ' ? '\u00A0' : c}</span>
           ))}
