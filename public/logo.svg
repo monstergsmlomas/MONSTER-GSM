@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <filter id="neonGreen" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="32" result="blur3"/>
+      <feMerge>
+        <feMergeNode in="blur3"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="neonBlue" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&amp;display=swap');
+      .brand-text { font-family: 'Dancing Script', cursive; font-size: 58px; font-weight: 700; }
+    </style>
+  </defs>
+  <rect width="400" height="500" fill="#000000"/>
+  <!-- Power button circle arc -->
+  <path d="M 200 260 m -110 0 a 110 110 0 1 1 220 0 a 110 110 0 0 1 -66 101"
+        fill="none" stroke="#3DFF14" stroke-width="22" stroke-linecap="round"
+        filter="url(#neonGreen)"/>
+  <!-- Power button vertical line (blue) -->
+  <line x1="200" y1="130" x2="200" y2="200"
+        stroke="#1A5CFF" stroke-width="20" stroke-linecap="round"
+        filter="url(#neonBlue)"/>
+  <!-- Brand name -->
+  <text x="200" y="430" text-anchor="middle"
+        class="brand-text" fill="#3DFF14"
+        filter="url(#neonGreen)">Monster gsm</text>
+</svg>
